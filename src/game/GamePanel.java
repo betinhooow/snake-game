@@ -1,6 +1,7 @@
 package game;
 
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -9,9 +10,8 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class GamePanel extends JPanel implements Runnable, KeyListener {
 
-	//TODO - setar h/w de acordo com as dimensoes do monitor
-	public static final int WIDTH = 400;
-	public static final int HEIGHT = 400;
+	public static final int WIDTH = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.5);
+	public static final int HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.45);
 	
 	public GamePanel() {
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));

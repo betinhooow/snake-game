@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
@@ -15,6 +16,7 @@ public class MainClass {
 		frame.setPreferredSize(new Dimension(GamePanel.WIDTH, GamePanel.HEIGHT));
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
+		frame.setLayout(new BorderLayout(5, 5));
 	}
 
 }
