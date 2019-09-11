@@ -3,46 +3,70 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 
-//a cobra � construida por uma lista (array) de instancias dessa classe
 public class PedacoCobra {
+/* 
+ * ************************************************************************************************************
+ * ATRIBUTOS
+ * ************************************************************************************************************
+ */
 	
-	//coordenadas do bloco, largura e altura do pixel do segmento dela
-	private int coordX, coordY, width, height;
+	// Coordenadas do bloco, largura e altura do pixel do segmento do corpo
+	private int coodX, coodY, largura, altura;
 	
-	//construtor que cria o segmento da cobra
-	public PedacoCobra(int coordX, int coordY, int size) {
-		this.coordX = coordX;
-		this.coordY = coordY;
-		width = size;
-		height = size;
+/* 
+ * ************************************************************************************************************
+ * CONSTRUTOR
+ * ************************************************************************************************************
+ */
+	
+	// Cria o segmento da cobra
+	public PedacoCobra(int coodX, int coodY, int areaPedacoCobra)
+	{
+		this.coodX = coodX;
+		this.coodY = coodY;
+		largura = areaPedacoCobra;
+		altura = areaPedacoCobra;
 	}
-	
-	//to do
-	public void rasteja() {
+/* 
+ * ************************************************************************************************************
+ * MÉTODOS
+ * ************************************************************************************************************
+ */
+	public void rasteja()
+	{
 		
 	}
 	
-	//quando instanciado um novo segmento, chamamos esse metodo para
-	//colorir e preencher o retangulo criado, para depois adicionarmos a lista da cobra
-	public void draw(Graphics g) {
-		g.setColor(Color.GREEN);
-		g.fillRect(coordX * width, coordY * height, width, height);
+	// 	Quando instanciado um novo segmento, esse metodo é chamado para colorir e preencher o retangulo criado,
+    //para depois adicionarmos a lista da cobra
+	public void draw(Graphics g)
+	{
+		g.setColor(Color.YELLOW);
+		
+		// Determina a posição que cada 'corpocobra' será pintado
+		g.fillRect(coodX * largura, coodY * altura, largura, altura); 
 	}
-
-	//getters and setters, pois sao att privados e usaremos esses atributos em outra classe
-	public int getCoordX() {
-		return coordX;
+	
+/* 
+ * ************************************************************************************************************
+ * MÉTODOS ACESSORES
+ * ************************************************************************************************************
+ */	
+	// Atributos privados necessarios em outras classes
+	public int getCoodX() {
+		return coodX;
 	}
-
-	public void setCoordX(int coordX) {
-		this.coordX = coordX;
+	public void setCoodX(int x) {
+		coodX = x;
 	}
-
-	public int getCoordY() {
-		return coordY;
+	public int getCoodY() {
+		return coodY;
 	}
-
-	public void setCoordY(int coordY) {
-		this.coordY = coordY;
+	public void setCoodY(int y) {
+		coodY = y;
 	}
+	
+	
+	
+	
 }

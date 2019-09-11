@@ -3,90 +3,86 @@ package game;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
-public class PainelGrafico extends JPanel implements Runnable{
 
+
+
+public class PainelGrafico extends JPanel implements Runnable, KeyListener {
+/* 
+ * ************************************************************************************************************
+ * ATRIBUTOS
+ * ************************************************************************************************************
+ */
+	
 	private static final long serialVersionUID = 1L;
 	
-	//tamanho do painel, e velocidade da cobra em miliseconds
-	public static final int WIDTH = (int) (Toolkit.getDefaultToolkit().getScreenSize().getWidth() * 0.5);
-	public static final int HEIGHT = (int) (Toolkit.getDefaultToolkit().getScreenSize().getHeight() * 0.5);
-	public static final int VELOCIDADE = 250000;
+	// Tamanho do painel
+	public static final int WIDTH = 500;
+	public static final int HEIGHT = 500;
+	// Velocidade da cobra em milisegundos
+	public static final int VELOCIDADE = 1000000;
 	
-	//thread que sera startada e running que controla a execucao do jogo
-	private Thread thread;
-	private boolean running;
-	
-	//pedacobra, È cada segmento da cobra, recebe x,y e o tamanho do cubo
-	//cobra È uma lista dos pedacoes, uma array de pixels e suas coordenadas
-	private PedacoCobra pc;
-	private ArrayList<PedacoCobra> cobra;
-	
-	//direcao de inicio que a cobra seguira
+	// Direcao de inicio (direita)
 	private boolean direita = true, esquerda = false, cima = false, baixo = false;
 	
-	//coordenada inicial e tamanho que a cobra tera de inicio
-	private int coordX = 10, coordY = 10, size = 5;
+	
+	// 'Thread' que sera startada 
+	private Thread thread;
+	// 'rastejando' que controla a execucao do jogo (sim ou nao)
+	private boolean rastejando;
+	
+	//'corpocobra', √© objeto de cada segmento da cobra [recebe x,y e o tamanho do cubo]
+	private PedacoCobra pedacoCobra;
+	//'cobra' √© uma lista de 'corpocobra', um array de pixels e suas coordenadas
+	private ArrayList<PedacoCobra> cobra;
+	
+	// Coordenada inicial e tamanho que a cobra tera de inicio
+	private int X = 10, Y = 10, size = 3;
 	private int rastejos = 0;
 	
-	//seta o tamanho do painel com as dimensoes, cria a cobra que È feita de uma lista cubos de 10pxls
-	//e inicia o jogo
-	public PainelGrafico() {
+/* 
+ * ************************************************************************************************************
+ * CONSTRUTOR
+ * ************************************************************************************************************
+ */
+	
+	public PainelGrafico()
+	{
+		setFocusable(true); //NAO ENTENDI
+		
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		addKeyListener(this);
 		
 		cobra = new ArrayList<PedacoCobra>();
 		iniciaJogo();
 	}
 	
-	private void rasteja(){
-		//evitar que a cobra nunca tenha tamanho 0
-		if(cobra.size() == 0) {
-			pc = new PedacoCobra(coordX, coordY, 10);
-			cobra.add(pc);
-		}
-		
-		//incrementa o contador da thread
-		rastejos++;
-		
-		if(rastejos == VELOCIDADE) {
-			//baseado na direcao atual, altera a posicao que sera incrementada
-			//na matriz
-			if(direita) coordX++;
-			if(esquerda) coordX--;
-			if(cima) coordY--;
-			if(baixo) coordY++;
-			
-			//zera o contador da thread
-			rastejos = 0;
-			
-			//adiciona mais um item a frente a cada rastejada que ela da
-			pc = new PedacoCobra(coordX, coordY, 10);
-			cobra.add(pc);
-			
-			//remove o ultimo elemento do array para ela rastejar e evitar que ultrapasse
-			//seu tamanho atual
-			if(cobra.size() > size) {
-				cobra.remove(0);
-			}
-		}
-	}
+/* 
+ * ************************************************************************************************************
+ * M√âTODOS
+ * ************************************************************************************************************
+ */	
 	
-	//metodo que inicia a thread de evento do jogo, seta run pra true
-	//e starta o evento
-	private void iniciaJogo() {
-		running = true;
+	// Metodo INICIAL - inicia a thread de evento do jogo, 
+	//seta run pra true e starta o evento
+	public void iniciaJogo()
+	{
+		rastejando = true;
 		thread = new Thread(this);
 		thread.start();
 	}
 	
-	//metodo que servira para parar o jogo, seta o running pra false
-	//e aguarda a thread ser finalizada
-	private void paraJogo() {
-		running = false;
+	//Metodo  FINAL - que servira para parar o jogo, 
+	//seta o running pra false e aguarda a thread ser finalizada
+	public void paraJogo()
+	{
+		rastejando = false;
+		// TRY-CATCH = Sugest√£o do IDE (n√£o sei pqe)!
 		try {
 			thread.join();
 		} catch (InterruptedException e) {
@@ -95,41 +91,140 @@ public class PainelGrafico extends JPanel implements Runnable{
 		}
 	}
 	
-	//metodo que È chamado no momento em que se cria a interface visual (setVisible(true))
-	//tudo que aparece no painel, È renderizado aqui, o fundo, a cobra e a fruta;
-	public void paint(Graphics g) {
-		//constroi a estrutura da matriz de acordo com W e H do painel
-		for(int i = 0; i < WIDTH/10; i++) {
-			g.drawLine(i * 10, 0, i * 10, HEIGHT);
+	public void rasteja()
+	{
+		// Evitar que a cobra tenha tamanho = 0
+		if(cobra.size() == 0)
+		{
+			pedacoCobra = new PedacoCobra(X, Y, 10);
+			cobra.add(pedacoCobra);
 		}
+		//incrementa o contador da thread
+		rastejos++; 
 		
-		for(int i = 0; i < HEIGHT/10; i++) {
-			g.drawLine(0, i * 10, WIDTH, i * 10);
+		
+		
+		if(rastejos > VELOCIDADE)
+		{
+			// Baseado na direcao atual, 
+			//altera a posicao que sera incrementada na matriz
+			if(direita) 	{X++;}
+			if(esquerda) 	{X--;}
+			if(cima) 		{Y--;}
+			if(baixo) 		{Y++;}
+			
+			// Zera o contador da thread
+			rastejos = 0;
+			
+			// Adiciona mais um item a frente a cada rastejada que ela d√°
+			pedacoCobra = new PedacoCobra(X, Y, 10);
+			cobra.add(pedacoCobra);
+			
+			if(cobra.size() > size)
+			{
+				cobra.remove(0);
+			}
 		}
-
-		//seta a cor do painel, e preenche os retangulos da matriz
+	}
+	
+	// Metodo que √© chamado no momento em que se cria a interface visual (setVisible(true))
+	//tudo que aparece no painel, √© renderizado aqui, o fundo, a cobra e a ma√ßa!
+	public void paint(Graphics g)
+	{
+//		g.clearRect(0, 0, WIDTH, HEIGHT); para que serve?
+		
+		// Define a cor do painel
 		g.setColor(Color.BLACK);
+		// Preenche os retangulos da matriz
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
-		for(int i = 0; i < cobra.size(); i++) {
+		for(int i = 0; i < WIDTH; i+=WIDTH/50)
+		{
+			g.drawLine(i, 0, i, HEIGHT);
+		}
+		
+		for(int i = 0; i < HEIGHT; i+=HEIGHT/50)
+		{
+			g.drawLine(0, i, WIDTH, i);
+		}
+		for(int i = 0; i < cobra.size() ; i++)
+		{
 			cobra.get(i).draw(g);
 		}
-		
 	}
 
-	//metodo sobrescrito da interface Runnable, È obrigatoria a implementaÁ„o dela
-	//quando a classe sera executada por meio de uma thread
+
+
 	@Override
+	/*
+	 * Metodo sobrescrito da interface Runnable!!!
+	 * OBS -> Obrigatoria a implementacao dela quando a classe sera executada por meio de uma thread
+	 */
 	public void run() {
-		//enquanto estiver rodando chama a classe que usa o contador da thread
-		//incrementa a direcao que ela esta andando e reprocessa o grafico
-		while(running) {
+		// TODO Auto-generated method stub
+		while(rastejando)
+		{
+			// 	Enquanto estiver rodando chama a classe que usa o contador da thread
+			//incrementa a direcao que ela esta andando e reprocessa o grafico
 			rasteja();
-			//chama o paint definido novamente, ao inves de criar uma nova configuracao de grafico
-			//altera a existente
+			
+			// 	'repaint()' - Chama o paint definido novamente, 
+			//ao inves de criar uma nova configuracao de grafico altera a existente
 			repaint();
+			
+		}
+	}
+
+	@Override
+	// Proveniente da interface KeyListener
+	public void keyPressed(KeyEvent evento) {
+		// TODO Auto-generated method stub
+		int tecla = evento.getKeyCode();
+		
+		// Pressionar tecla para DIREITA (padr√£o de inicio)
+		if((tecla == KeyEvent.VK_RIGHT) && (!esquerda))
+		{
+			direita = true;
+			cima = false;
+			baixo = false;
 		}
 		
+		// Pressionar tecla para ESQUERDA
+		if((tecla == KeyEvent.VK_LEFT) && (!direita))
+		{
+			esquerda = true;
+			cima = false;
+			baixo = false;
+		}
+		
+		// Pressionar tecla para CIMA
+		if((tecla == KeyEvent.VK_UP) && (!baixo))
+		{
+			cima = true;
+			direita = false;
+			esquerda = false;
+		}
+		
+		// Pressionar tecla para BAIXO
+		if((tecla == KeyEvent.VK_DOWN) && (!cima))
+		{
+			baixo = true;
+			direita = false;
+			esquerda = false;
+		}
 	}
 
+	@Override
+	// Proveniente da interface KeyListener
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	// Proveniente da interface KeyListener
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
 }
