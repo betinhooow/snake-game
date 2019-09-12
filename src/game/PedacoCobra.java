@@ -32,6 +32,7 @@ public class PedacoCobra {
  * MÉTODOS
  * ************************************************************************************************************
  */
+	// Ainda não implementado
 	public void rasteja()
 	{
 		

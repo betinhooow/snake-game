@@ -25,7 +25,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	public static final int WIDTH = 500;
 	public static final int HEIGHT = 500;
 	// Velocidade da cobra em milisegundos
-	public static final int VELOCIDADE = 1000000;
+	public static final int VELOCIDADE = 750000;
 	
 	// Direcao de inicio (direita)
 	private boolean direita = true, esquerda = false, cima = false, baixo = false;
@@ -42,7 +42,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	private ArrayList<PedacoCobra> cobra;
 	
 	// Coordenada inicial e tamanho que a cobra tera de inicio
-	private int X = 10, Y = 10, size = 3;
+	private int coodX = 10, coodY = 10, size = 3;
 	private int rastejos = 0;
 	
 /* 
@@ -53,7 +53,9 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	
 	public PainelGrafico()
 	{
-		setFocusable(true); //NAO ENTENDI
+		// Faz com que o componente tenha a capacidade de obter foco,
+		//sem esse método os "KeyListeners" nao funcionam
+		setFocusable(true); 
 		
 		setPreferredSize(new Dimension(WIDTH, HEIGHT));
 		addKeyListener(this);
@@ -96,7 +98,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		// Evitar que a cobra tenha tamanho = 0
 		if(cobra.size() == 0)
 		{
-			pedacoCobra = new PedacoCobra(X, Y, 10);
+			pedacoCobra = new PedacoCobra(coodX, coodY, 10);
 			cobra.add(pedacoCobra);
 		}
 		//incrementa o contador da thread
@@ -108,21 +110,30 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		{
 			// Baseado na direcao atual, 
 			//altera a posicao que sera incrementada na matriz
-			if(direita) 	{X++;}
-			if(esquerda) 	{X--;}
-			if(cima) 		{Y--;}
-			if(baixo) 		{Y++;}
+			if(direita) 	{coodX++;}
+			if(esquerda) 	{coodX--;}
+			if(cima) 		{coodY--;}
+			if(baixo) 		{coodY++;}
 			
 			// Zera o contador da thread
 			rastejos = 0;
 			
 			// Adiciona mais um item a frente a cada rastejada que ela dá
-			pedacoCobra = new PedacoCobra(X, Y, 10);
+			pedacoCobra = new PedacoCobra(coodX, coodY, 10);
 			cobra.add(pedacoCobra);
 			
 			if(cobra.size() > size)
 			{
 				cobra.remove(0);
+			}
+			
+			// COLISAO BORDA = Limite maximo que a cobra pode andar no frame,
+			//como temos 500 pixels na horizontal e na vertical divididos por 10,
+			//pode-se andar 50 quadrados na vertical e horizontal ao longo do mapa [0 até 49]
+			if(coodX < 0 || coodX > 49 || coodY < 0 || coodY > 49)
+			{
+				System.out.println("Game Over!");
+				paraJogo();
 			}
 		}
 	}
@@ -138,15 +149,19 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		// Preenche os retangulos da matriz
 		g.fillRect(0, 0, WIDTH, HEIGHT);
 		
+		// Desenha as linhas verticais
 		for(int i = 0; i < WIDTH; i+=WIDTH/50)
 		{
 			g.drawLine(i, 0, i, HEIGHT);
 		}
 		
+		// Desenha as linhas horizontais
 		for(int i = 0; i < HEIGHT; i+=HEIGHT/50)
 		{
 			g.drawLine(0, i, WIDTH, i);
 		}
+		
+		// Desenha a cobra em si
 		for(int i = 0; i < cobra.size() ; i++)
 		{
 			cobra.get(i).draw(g);
