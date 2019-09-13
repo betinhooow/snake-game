@@ -1,7 +1,6 @@
 package game;
 
 import java.awt.Color;
-
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -90,26 +89,21 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	
 	//Metodo  FINAL - que servira para parar o jogo, 
 	//seta o running pra false e aguarda a thread ser finalizada
-	public void paraJogo()
+	//Metodo  FINAL - que servira para parar o jogo, 
+	//seta o running pra false e aguarda a thread ser finalizada
+
+	public void sairJogo()
 	{
-		rastejando = false;
-		// TRY-CATCH = Sugestao do IDE (nao sei pqe)!
-		try {
-			thread.join();
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}	
+		System.exit(1);
 	}
 	
+	public void reiniciar()
+	{
+		coodX = 25;
+		coodY = 25;
+		tam = 3;
+	}
 	
-//	// Funcao Teste!
-//	public void reiniciaJogo()
-//	{
-//		coodX = 25;
-//		coodY = 25;
-//		tam = 3;
-//	}
 
 
 	public void rasteja()
@@ -173,15 +167,27 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 				// Excluir cabeca da cobra para nao "estourar"
 				cobra.remove((cobra.size()) - 1);
 				
-				System.out.println("Game Over!");
-				JOptionPane.showMessageDialog(null,  "Game Over!", "Try Again...", JOptionPane.INFORMATION_MESSAGE);
+				String[] opcoes = {"Reiniciar", "Sair"};
 				
-				paraJogo();
+				//int input = JOptionPane.showOptionDialog(null, "Continuar o game", "Game over", JOptionPane.OK_CANCEL_OPTION, JOptionPane.CLOSED_OPTION,null,  "Sim", "Nao");
+				int input = JOptionPane.showOptionDialog(null, "O que deseja? ", "Game Over!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, opcoes, opcoes[0]);
+				if(input == 0)
+				{
+					System.out.print("reinicia o jogo\n");
+					reiniciar();
+						
+					
+				}
+				else{
+					System.out.println("Sair do Jogo\n");
+					sairJogo();
+				}
+
+		
 			  //reiniciaJogo();
 			}
 		}
-	}	
-		
+	}
 	private ImageIcon Titulo_Imagem; //classe ImageIcon
 	private ImageIcon CabecaDireita;// classe ImageIcon pro sprite da cabeça pra direita da cobra
 	private ImageIcon CabecaEsquerda;
