@@ -1,12 +1,14 @@
 package game;
 
 import java.awt.Color;
+
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -179,8 +181,17 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		}
 	}	
 		
+	private ImageIcon Titulo_Imagem; //classe ImageIcon
+
+	
+	
 		
 	public void paint (Graphics grafico) {
+		
+		// Imagem do titulo
+		Titulo_Imagem = new ImageIcon("Imagens/Titulo_Cobra.jpg"); //estanciando uma nova imagem, colocando como parametro o local da imagem
+		Titulo_Imagem.paintIcon(this, grafico, 50, 50);	
+		
 		
 		// Retangulo do titulo
 		grafico.setColor(Color.BLACK);
