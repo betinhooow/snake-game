@@ -3,6 +3,8 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import javax.swing.ImageIcon;
+
 public class PedacoCobra {
 /* 
  * ************************************************************************************************************
@@ -11,8 +13,11 @@ public class PedacoCobra {
  */
 	
 	// Coordenadas do bloco, largura e altura do pixel do segmento do corpo
-	private int coodX, coodY, largura, altura;
-	
+	private  int coodX;
+	int coodY;
+	private int largura;
+	private int altura;
+
 /* 
  * ************************************************************************************************************
  * CONSTRUTOR
@@ -38,11 +43,16 @@ public class PedacoCobra {
 		
 	}
 	
+	private ImageIcon CorpoC; //classe ImageIcon
+
+	
 	// 	Quando instanciado um novo segmento, esse metodo é chamado para colorir e preencher o retangulo criado,
     //para depois adicionarmos a lista da cobra
 	public void draw(Graphics g)
 	{
-		g.setColor(Color.YELLOW);
+		CorpoC = new ImageIcon("Imagens/CorpoCobra.jpg");
+	
+		
 		
 		// Determina a posição que cada 'corpocobra' será pintado
 		g.fillRect(coodX * largura, coodY * altura, largura, altura); 

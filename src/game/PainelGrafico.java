@@ -11,6 +11,7 @@ import java.util.Random;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 
 public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 
@@ -182,10 +183,16 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	}	
 		
 	private ImageIcon Titulo_Imagem; //classe ImageIcon
-
+	private ImageIcon CabecaDireita;// classe ImageIcon pro sprite da cabeça pra direita da cobra
+	private ImageIcon CabecaEsquerda;
+	private ImageIcon CabecaCima;
+	private ImageIcon CabecaBaixo;
+	private ImageIcon Corpo;
+	
+	private Timer timer;
+	private int delay=100;
 	
 	
-		
 	public void paint (Graphics grafico) {
 		
 		// Imagem do titulo
@@ -218,7 +225,10 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		// Desenhar Macas
 		for(int i=0;i<macas.size();i++)	{
 			macas.get(i).draw(grafico);
-		}
+		} 
+		
+		CabecaDireita = new ImageIcon("Imagens/CabeçaDireita.jpg");
+		CabecaDireita.paintIcon(this,grafico, coodX , coodY);		
 	}
 	
 	@Override
