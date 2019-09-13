@@ -19,9 +19,11 @@ public class MainClass {
 		frame.setBackground(Color.DARK_GRAY );
 		
 		frame.pack();
-		frame.setLocationRelativeTo(null);
+
 		
 		frame.setBounds(0,0,600,700);
+		
+		frame.setLocationRelativeTo(null);
 	}
 
 }
