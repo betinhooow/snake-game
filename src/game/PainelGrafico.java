@@ -200,6 +200,13 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	
 	public void paint (Graphics grafico) {
 		
+		
+		
+		
+		
+		
+		
+		
 		// Imagem do titulo
 		Titulo_Imagem = new ImageIcon("Imagens/Titulo_Cobra.jpg"); //estanciando uma nova imagem, colocando como parametro o local da imagem
 		Titulo_Imagem.paintIcon(this, grafico, 50, 50);	
@@ -248,6 +255,11 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			if (a == 0 && cima) {
 				CabecaBaixo = new ImageIcon("Imagens/CabeçaCima.jpg");
 				CabecaBaixo.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
+			}
+			if (a!= 0) {
+				CabecaBaixo = new ImageIcon("Imagens/CabeçaCima.jpg");
+				CabecaBaixo.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);
+					
 			}
 			
 		}
