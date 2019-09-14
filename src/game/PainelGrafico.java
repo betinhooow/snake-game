@@ -189,7 +189,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		}
 	}
 	private ImageIcon Titulo_Imagem; //classe ImageIcon
-	private ImageIcon CabecaDireita;// classe ImageIcon pro sprite da cabeça pra direita da cobra
+	private ImageIcon CabecaDireita;
 	private ImageIcon CabecaEsquerda;
 	private ImageIcon CabecaCima;
 	private ImageIcon CabecaBaixo;
@@ -197,7 +197,6 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	
 	private Timer timer;
 	private int delay=100;
-	
 	
 	public void paint (Graphics grafico) {
 		
@@ -233,8 +232,29 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			macas.get(i).draw(grafico);
 		} 
 		
-		CabecaDireita = new ImageIcon("Imagens/CabeçaDireita.jpg");
-		CabecaDireita.paintIcon(this,grafico, coodX , coodY);		
+		for(int a = 0; a< cobra.size();a++) {
+			if (a == 0 && direita) {
+				CabecaDireita = new ImageIcon("Imagens/CabeçaDireita.jpg");
+				CabecaDireita.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
+			}
+			if (a == 0 && esquerda) {
+				CabecaEsquerda = new ImageIcon("Imagens/CabeçaEsquerda.jpg");
+				CabecaEsquerda.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
+			}
+			if (a == 0 && baixo) {
+				CabecaBaixo = new ImageIcon("Imagens/CabeçaBaixo.jpg");
+				CabecaBaixo.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
+			}
+			if (a == 0 && cima) {
+				CabecaBaixo = new ImageIcon("Imagens/CabeçaCima.jpg");
+				CabecaBaixo.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
+			}
+			
+		}
+			
+			
+		
+			
 	}
 	
 	@Override
