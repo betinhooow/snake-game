@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
-
+import java.awt.Font;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -77,6 +77,10 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
  * CONSTRUTOR
  * **********************************************************************************************************
  */	
+	public int pontos =0;
+	public String name = "";
+	
+	
 	
 	// Metodo INICIAL - inicia a thread de evento do jogo, 
 	//seta run pra true e starta o evento
@@ -102,6 +106,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		coodX = 25;
 		coodY = 25;
 		tam = 3;
+		pontos =0;
 	}
 	
 
@@ -156,6 +161,9 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 					tam++;
 					macas.remove(i);
 					i++;
+					pontos+=100;
+					System.out.println(pontos);
+			 
 				}
 			}
 			
@@ -174,9 +182,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 				if(input == 0)
 				{
 					System.out.print("reinicia o jogo\n");
-					reiniciar();
-						
-					
+					reiniciar();						
 				}
 				else{
 					System.out.println("Sair do Jogo\n");
@@ -198,6 +204,18 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	private Timer timer;
 	private int delay=100;
 	
+	
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public void paint (Graphics grafico) {
 		
 		
@@ -210,12 +228,19 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		// Imagem do titulo
 		Titulo_Imagem = new ImageIcon("Imagens/Titulo_Cobra.jpg"); //estanciando uma nova imagem, colocando como parametro o local da imagem
 		Titulo_Imagem.paintIcon(this, grafico, 50, 50);	
+		int fontSize = 20;
+	    grafico.setFont(new Font("TimesRoman", Font.ITALIC, fontSize));
+	     
+	    grafico.setColor(Color.red);
+	    
+	   
 		
 		grafico.setColor(Color.DARK_GRAY);
 		grafico.fillRect(0,0,50,100);
 		grafico.setColor(Color.DARK_GRAY);
 		grafico.fillRect(0,0,300,50);
 		// Retangulo do titulo
+
 		grafico.setColor(Color.BLACK);
 		grafico.drawRect(50, 50, 500, 50);
 		
@@ -223,6 +248,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		grafico.setColor(Color.black);
 		grafico.drawRect(50, 100, 500, 500);
 		grafico.fillRect(50, 100, 500, 500);
+		
 		
 		// Desenhar Linhas Verticais
 		for(int i=50;i<=550;i+=500/50){
@@ -241,7 +267,9 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		for(int i=0;i<macas.size();i++)	{
 			macas.get(i).draw(grafico);
 		} 
-		
+		grafico.setColor(Color.white);
+		 grafico.drawString("Jogador: " + name , 120, 90);
+		 grafico.drawString("Pontos:  " + Integer.toString(pontos), 420, 90);
 		for(int a = 0; a< cobra.size();a++) {
 			if (a == 0 && direita) {
 				CabecaDireita = new ImageIcon("Imagens/CabeçaDireita.jpg");
@@ -275,6 +303,9 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	 */
 	public void run() {
 		// TODO Auto-generated method stub
+		
+		 name = JOptionPane.showInputDialog("Qual seu nome?");
+		
 		while(rastejando)
 		{
 			// 	Enquanto estiver rodando chama a classe que usa o contador da thread
