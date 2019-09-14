@@ -204,7 +204,10 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		Titulo_Imagem = new ImageIcon("Imagens/Titulo_Cobra.jpg"); //estanciando uma nova imagem, colocando como parametro o local da imagem
 		Titulo_Imagem.paintIcon(this, grafico, 50, 50);	
 		
-		
+		grafico.setColor(Color.DARK_GRAY);
+		grafico.fillRect(0,0,50,100);
+		grafico.setColor(Color.DARK_GRAY);
+		grafico.fillRect(0,0,300,50);
 		// Retangulo do titulo
 		grafico.setColor(Color.BLACK);
 		grafico.drawRect(50, 50, 500, 50);
