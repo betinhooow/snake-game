@@ -16,7 +16,7 @@ public class MainClass {
 		frame.setResizable(false);
 		frame.setVisible(true);
 		
-		frame.setBackground(Color.DARK_GRAY );
+		frame.setBackground(Color.DARK_GRAY);
 		
 		frame.pack();
 

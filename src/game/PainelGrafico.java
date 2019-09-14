@@ -259,11 +259,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 				CabecaBaixo = new ImageIcon("Imagens/CabeçaCima.jpg");
 				CabecaBaixo.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
 			}
-			if (a!= 0) {
-				CabecaBaixo = new ImageIcon("Imagens/CabeçaCima.jpg");
-				CabecaBaixo.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);
-					
-			}
+
 			
 		}
 			
