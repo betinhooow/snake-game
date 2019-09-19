@@ -1,16 +1,16 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
-import java.awt.Font;
+
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 
@@ -60,7 +60,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	{
 		
 		// Faz com que o componente tenha a capacidade de obter foco,
-		//sem esse método os "KeyListeners" nao funcionam
+		//sem esse mÃ©todo os "KeyListeners" nao funcionam
 		setFocusable(true);
 		addKeyListener(this);
 		
@@ -164,6 +164,10 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 					pontos+=100;
 					System.out.println(pontos);
 			 
+				}
+				if((pontos>=500)) {//DEVE SER ALTERADO PARA 250 MIL PONTOS apenas para exibir para o professor
+					JOptionPane.showMessageDialog(null, "Você Ganhou!!");
+					System.exit(1);
 				}
 			}
 			
@@ -276,10 +280,16 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	public void run() {
 		// TODO Auto-generated method stub
 		
-		 name = JOptionPane.showInputDialog("Qual seu nome?");
+			
 		
 		while(rastejando)
 		{
+			//Garante que o usuário insira um nome
+			if(name ==null || name.equals("")){
+				name = JOptionPane.showInputDialog("Qual seu nome?");
+				System.out.println(name);
+				continue;
+			}
 			// 	Enquanto estiver rodando chama a classe que usa o contador da thread
 			//incrementa a direcao que ela esta andando e reprocessa o grafico
 			rasteja();
