@@ -1,20 +1,16 @@
 package game;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
-import java.awt.Font;
 
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 
@@ -110,7 +106,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		coodX = 25;
 		coodY = 25;
 		tam = 3;
-		pontos =0;
+		pontos = 0;
 	}
 	
 
@@ -138,7 +134,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			// Zera o contador da thread
 			rastejos = 0;
 			
-			// Adiciona mais um item a frente a cada rastejada que ela dï¿½
+			// Adiciona mais um item a frente a cada rastejada que ela da
 			pedacoCobra = new PedacoCobra(coodX, coodY, 10);
 			cobra.add(pedacoCobra);
 			
@@ -150,8 +146,8 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			if(macas.size() == 0)
 			{
 				// Gera uma posicao aleatoria para gerar a maca a cada iteraccao
-				int coodX = aleatorio.nextInt((55 - 5) + 1) + 5;
-				int coodY = aleatorio.nextInt((60 - 10) + 1) + 10;
+				int coodX = aleatorio.nextInt(49);
+				int coodY = aleatorio.nextInt(49)+5;
 				
 				// Cria a maca e adiciona ao vetor
 				maca = new Maca(coodX, coodY, 10);
@@ -177,15 +173,14 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			
 			// COLISAO BORDA = Limite maximo que a cobra pode andar no frame,
 			//como temos 500 pixels na horizontal e na vertical divididos por 10,
-			//pode-se andar 50 quadrados na vertical e horizontal ao longo do mapa [0 atï¿½ 49]
-			if(coodX < 0 || coodX >= 51 || coodY < 5 || coodY >= 55)
+			//pode-se andar 50 quadrados na vertical e horizontal ao longo do mapa
+			if(coodX < 0 || coodX >= 50 || coodY < 5 || coodY >= 55)
 			{		
 				// Excluir cabeca da cobra para nao "estourar"
 				cobra.remove((cobra.size()) - 1);
 				
 				String[] opcoes = {"Reiniciar", "Sair"};
 				
-				//int input = JOptionPane.showOptionDialog(null, "Continuar o game", "Game over", JOptionPane.OK_CANCEL_OPTION, JOptionPane.CLOSED_OPTION,null,  "Sim", "Nao");
 				int input = JOptionPane.showOptionDialog(null, "O que deseja? ", "Game Over!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, opcoes, opcoes[0]);
 				if(input == 0)
 				{
@@ -209,10 +204,6 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	private ImageIcon CabecaBaixo;
 	private ImageIcon Corpo;
 	
-	private Timer timer;
-	private int delay=100;
-	
-
 	
 	public void paint (Graphics grafico) {
 		// Imagem do titulo
@@ -259,23 +250,21 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		 grafico.drawString("Pontos:  " + Integer.toString(pontos), 350, 30);
 		for(int a = 0; a< cobra.size();a++) {
 			if (a == 0 && direita) {
-				CabecaDireita = new ImageIcon("Imagens/CabeçaDireita.jpg");
+				CabecaDireita = new ImageIcon("Imagens/CabecaDireita.jpg");
 				CabecaDireita.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
 			}
 			if (a == 0 && esquerda) {
-				CabecaEsquerda = new ImageIcon("Imagens/CabeçaEsquerda.jpg");
+				CabecaEsquerda = new ImageIcon("Imagens/CabecaEsquerda.jpg");
 				CabecaEsquerda.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
 			}
 			if (a == 0 && baixo) {
-				CabecaBaixo = new ImageIcon("Imagens/CabeçaBaixo.jpg");
+				CabecaBaixo = new ImageIcon("Imagens/CabecaBaixo.jpg");
 				CabecaBaixo.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
 			}
 			if (a == 0 && cima) {
-				CabecaBaixo = new ImageIcon("Imagens/CabeçaCima.jpg");
+				CabecaBaixo = new ImageIcon("Imagens/CabecaCima.jpg");
 				CabecaBaixo.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
-			}
-
-			
+			}	
 		}
 			
 			
@@ -308,7 +297,6 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			// 	'repaint()' - Chama o paint definido novamente, 
 			//ao inves de criar uma nova configuracao de grafico altera a existente
 			repaint();
-			
 		}
 	}
 	
