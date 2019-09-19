@@ -24,7 +24,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		private static final long serialVersionUID = 1L;
 		
 		// Velocidade da cobra em milisegundos
-		public static final int VELOCIDADE = 750000;
+		public static final int VELOCIDADE = 1000000;
 		
 		// Direcao de inicio (direita)
 		private boolean direita = true, esquerda = false, cima = false, baixo = false;
@@ -170,7 +170,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			// COLISAO BORDA = Limite maximo que a cobra pode andar no frame,
 			//como temos 500 pixels na horizontal e na vertical divididos por 10,
 			//pode-se andar 50 quadrados na vertical e horizontal ao longo do mapa [0 atï¿½ 49]
-			if(coodX < 5 || coodX > 54 || coodY < 10 || coodY > 59)
+			if(coodX < 0 || coodX >= 51 || coodY < 5 || coodY >= 55)
 			{		
 				// Excluir cabeca da cobra para nao "estourar"
 				cobra.remove((cobra.size()) - 1);
@@ -204,30 +204,12 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	private Timer timer;
 	private int delay=100;
 	
-	
 
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	public void paint (Graphics grafico) {
-		
-		
-		
-		
-		
-		
-		
-		
 		// Imagem do titulo
-		Titulo_Imagem = new ImageIcon("Imagens/Titulo_Cobra.jpg"); //estanciando uma nova imagem, colocando como parametro o local da imagem
-		Titulo_Imagem.paintIcon(this, grafico, 50, 50);	
+		Titulo_Imagem = new ImageIcon("Imagens/Titulo_Cobra.jpg"); //instanciando uma nova imagem, colocando como parametro o local da imagem
+		Titulo_Imagem.paintIcon(this, grafico, 0, 0);	
 		int fontSize = 20;
 	    grafico.setFont(new Font("TimesRoman", Font.ITALIC, fontSize));
 	     
@@ -235,29 +217,26 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	    
 	   
 		
-		grafico.setColor(Color.DARK_GRAY);
-		grafico.fillRect(0,0,50,100);
-		grafico.setColor(Color.DARK_GRAY);
-		grafico.fillRect(0,0,300,50);
+
 		// Retangulo do titulo
 
 		grafico.setColor(Color.BLACK);
-		grafico.drawRect(50, 50, 500, 50);
+		grafico.drawRect(0, 0, 500, 50);
 		
 		//Retangulo do jogo
 		grafico.setColor(Color.black);
-		grafico.drawRect(50, 100, 500, 500);
-		grafico.fillRect(50, 100, 500, 500);
+		grafico.drawRect(0, 50, 500, 500);
+		grafico.fillRect(0, 50, 500, 500);
 		
 		
 		// Desenhar Linhas Verticais
-		for(int i=50;i<=550;i+=500/50){
-			grafico.drawLine(i, 100, i, 600);
+		for(int i=0;i<=500;i+=500/50){
+			grafico.drawLine(i, 50, i, 550);
 		
 		}
 		// Desenhar linhas Horizontais
-		for(int i=100;i<=600;i+=500/50){
-			grafico.drawLine(50, i, 550, i);
+		for(int i=50;i<=550;i+=500/50){
+			grafico.drawLine(0, i, 500, i);
 		}
 		// Desenhar Cobra em si
 		for(int i=0;i<cobra.size();i++)	{
@@ -268,8 +247,8 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			macas.get(i).draw(grafico);
 		} 
 		grafico.setColor(Color.white);
-		 grafico.drawString("Jogador: " + name , 120, 90);
-		 grafico.drawString("Pontos:  " + Integer.toString(pontos), 420, 90);
+		 grafico.drawString("Jogador: " + name , 5, 30);
+		 grafico.drawString("Pontos:  " + Integer.toString(pontos), 350, 30);
 		for(int a = 0; a< cobra.size();a++) {
 			if (a == 0 && direita) {
 				CabecaDireita = new ImageIcon("Imagens/CabeçaDireita.jpg");

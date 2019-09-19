@@ -21,7 +21,7 @@ public class MainClass {
 		frame.pack();
 
 		
-		frame.setBounds(0,0,600,700);
+		frame.setBounds(0,0,507,587);
 		
 		frame.setLocationRelativeTo(null);
 	}
