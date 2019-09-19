@@ -64,7 +64,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	{
 		
 		// Faz com que o componente tenha a capacidade de obter foco,
-		//sem esse método os "KeyListeners" nao funcionam
+		//sem esse mÃ©todo os "KeyListeners" nao funcionam
 		setFocusable(true);
 		addKeyListener(this);
 		
@@ -138,7 +138,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			// Zera o contador da thread
 			rastejos = 0;
 			
-			// Adiciona mais um item a frente a cada rastejada que ela d�
+			// Adiciona mais um item a frente a cada rastejada que ela dï¿½
 			pedacoCobra = new PedacoCobra(coodX, coodY, 10);
 			cobra.add(pedacoCobra);
 			
@@ -169,11 +169,15 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 					System.out.println(pontos);
 			 
 				}
+				if((pontos>=500)) {//DEVE SER ALTERADO PARA 250 MIL PONTOS apenas para exibir para o professor
+					JOptionPane.showMessageDialog(null, "Você Ganhou!!");
+					System.exit(1);
+				}
 			}
 			
 			// COLISAO BORDA = Limite maximo que a cobra pode andar no frame,
 			//como temos 500 pixels na horizontal e na vertical divididos por 10,
-			//pode-se andar 50 quadrados na vertical e horizontal ao longo do mapa [0 at� 49]
+			//pode-se andar 50 quadrados na vertical e horizontal ao longo do mapa [0 atï¿½ 49]
 			if(coodX < 0 || coodX >= 51 || coodY < 5 || coodY >= 55)
 			{		
 				// Excluir cabeca da cobra para nao "estourar"
@@ -255,19 +259,19 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		 grafico.drawString("Pontos:  " + Integer.toString(pontos), 350, 30);
 		for(int a = 0; a< cobra.size();a++) {
 			if (a == 0 && direita) {
-				CabecaDireita = new ImageIcon("Imagens/Cabe�aDireita.jpg");
+				CabecaDireita = new ImageIcon("Imagens/CabeçaDireita.jpg");
 				CabecaDireita.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
 			}
 			if (a == 0 && esquerda) {
-				CabecaEsquerda = new ImageIcon("Imagens/Cabe�aEsquerda.jpg");
+				CabecaEsquerda = new ImageIcon("Imagens/CabeçaEsquerda.jpg");
 				CabecaEsquerda.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
 			}
 			if (a == 0 && baixo) {
-				CabecaBaixo = new ImageIcon("Imagens/Cabe�aBaixo.jpg");
+				CabecaBaixo = new ImageIcon("Imagens/CabeçaBaixo.jpg");
 				CabecaBaixo.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
 			}
 			if (a == 0 && cima) {
-				CabecaBaixo = new ImageIcon("Imagens/Cabe�aCima.jpg");
+				CabecaBaixo = new ImageIcon("Imagens/CabeçaCima.jpg");
 				CabecaBaixo.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
 			}
 
@@ -287,10 +291,16 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	public void run() {
 		// TODO Auto-generated method stub
 		
-		 name = JOptionPane.showInputDialog("Qual seu nome?");
+			
 		
 		while(rastejando)
 		{
+			//Garante que o usuário insira um nome
+			if(name ==null || name.equals("")){
+				name = JOptionPane.showInputDialog("Qual seu nome?");
+				System.out.println(name);
+				continue;
+			}
 			// 	Enquanto estiver rodando chama a classe que usa o contador da thread
 			//incrementa a direcao que ela esta andando e reprocessa o grafico
 			rasteja();
