@@ -38,15 +38,6 @@ public class PedacoCobra {
  * MÉTODOS
  * ************************************************************************************************************
  */
-	// Ainda não implementado
-	public void rasteja()
-	{
-		
-	}
-	
-
-	
-
 	
 	// 	Quando instanciado um novo segmento, esse metodo é chamado para colorir e preencher o retangulo criado,
     //para depois adicionarmos a lista da cobra

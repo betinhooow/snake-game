@@ -7,8 +7,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.concurrent.Delayed;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -24,7 +26,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		private static final long serialVersionUID = 1L;
 		
 		// Velocidade da cobra em milisegundos
-		public static final int VELOCIDADE = 1000000;
+		public static final int VELOCIDADE = 750000;
 		
 		// Direcao de inicio (direita)
 		private boolean direita = true, esquerda = false, cima = false, baixo = false;
@@ -47,6 +49,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		
 		// Coordenada inicial e tamanho que a cobra tera de inicio
 		private int coodX = 5, coodY = 10, tam = 3;
+		private int delay=450;
 		private int rastejos = 0;
 	
 		
@@ -66,7 +69,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		
 		cobra = new ArrayList<PedacoCobra>();
 		macas = new ArrayList<Maca>();	
-		
+	
 		aleatorio = new Random(); 
 		
 		iniciaJogo();
@@ -98,15 +101,32 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 
 	public void sairJogo()
 	{
+		JOptionPane.showMessageDialog(null, "Este jogo foi desenvolvido por: \n\n Arthur Guedes \n Kevin Barrios \n Matheus Bruder \n Roberto Nobre");
 		System.exit(1);
 	}
 	
 	public void reiniciar()
 	{
-		coodX = 25;
-		coodY = 25;
-		tam = 3;
-		pontos = 0;
+	
+		cobra.clear(); //LIMPA A ESTRUTURA DE DADOS
+		macas.clear();
+		String[] opcoes = {"Reiniciar", "Sair"};
+		
+		int input = JOptionPane.showOptionDialog(null, "O que deseja? ", "Game Over!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, opcoes, opcoes[0]);
+		if(input == 0)
+		{
+			coodX = 25;
+			coodY = 25;
+			tam = 3;
+			pontos = 0;
+			System.out.print("reinicia o jogo\n");			
+		}
+		else{
+			System.out.println("Sair do Jogo\n");
+			sairJogo();
+		}
+	
+		
 	}
 	
 
@@ -126,7 +146,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		{
 			// Baseado na direcao atual, 
 			//altera a posicao que sera incrementada na matriz
-			if(direita) 	{coodX++;}
+			if(direita ) 	{coodX++;}
 			if(esquerda) 	{coodX--;}
 			if(cima) 		{coodY--;}
 			if(baixo) 		{coodY++;}
@@ -147,6 +167,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			{
 				// Gera uma posicao aleatoria para gerar a maca a cada iteraccao
 				int coodX = aleatorio.nextInt(49);
+				// Deve ser '+5' devido ao inicio do painel do jogo
 				int coodY = aleatorio.nextInt(49)+5;
 				
 				// Cria a maca e adiciona ao vetor
@@ -154,6 +175,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 				macas.add(maca);
 			}
 			
+			//Algoritmo responsavel por "comer a maca" e impedir que de respawn em cima da propria cobra
 			for(int i = 0; i < macas.size(); i++)
 			{
 				if((coodX == macas.get(i).getCoodX()) && (coodY == macas.get(i).getCoodY()))
@@ -171,6 +193,17 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 				}
 			}
 			
+			for(int i = 0; i < cobra.size(); i++)
+			{
+				if((coodX == cobra.get(i).getCoodX()) && (coodY == cobra.get(i).getCoodY()))
+				{
+					if(i != cobra.size() -1)
+					{
+						reiniciar();
+						System.out.println("PERDEU");
+					}
+				}
+			}
 			// COLISAO BORDA = Limite maximo que a cobra pode andar no frame,
 			//como temos 500 pixels na horizontal e na vertical divididos por 10,
 			//pode-se andar 50 quadrados na vertical e horizontal ao longo do mapa
@@ -178,22 +211,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			{		
 				// Excluir cabeca da cobra para nao "estourar"
 				cobra.remove((cobra.size()) - 1);
-				
-				String[] opcoes = {"Reiniciar", "Sair"};
-				
-				int input = JOptionPane.showOptionDialog(null, "O que deseja? ", "Game Over!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, opcoes, opcoes[0]);
-				if(input == 0)
-				{
-					System.out.print("reinicia o jogo\n");
-					reiniciar();						
-				}
-				else{
-					System.out.println("Sair do Jogo\n");
-					sairJogo();
-				}
-
-		
-			  //reiniciaJogo();
+				reiniciar();
 			}
 		}
 	}
@@ -203,6 +221,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	private ImageIcon CabecaCima;
 	private ImageIcon CabecaBaixo;
 	private ImageIcon Corpo;
+	private ImageIcon MACA;
 	
 	
 	public void paint (Graphics grafico) {
@@ -245,9 +264,12 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		for(int i=0;i<macas.size();i++)	{
 			macas.get(i).draw(grafico);
 		} 
+		
+		
 		grafico.setColor(Color.white);
-		 grafico.drawString("Jogador: " + name , 5, 30);
-		 grafico.drawString("Pontos:  " + Integer.toString(pontos), 350, 30);
+		grafico.drawString("Jogador: " + name , 5, 30);
+		grafico.drawString("Pontos:  " + Integer.toString(pontos), 350, 30);
+		
 		for(int a = 0; a< cobra.size();a++) {
 			if (a == 0 && direita) {
 				CabecaDireita = new ImageIcon("Imagens/CabecaDireita.jpg");
@@ -286,7 +308,8 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		{
 			//Garante que o usuário insira um nome
 			if(name ==null || name.equals("")){
-				name = JOptionPane.showInputDialog("Qual seu nome?");
+				JOptionPane.showMessageDialog(null, "Preencha seu nome, por favor!");
+				name = JOptionPane.showInputDialog("Seu nome?");
 				System.out.println(name);
 				continue;
 			}
@@ -312,6 +335,15 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			direita = true;
 			cima = false;
 			baixo = false;
+		if(tecla != KeyEvent.VK_RIGHT) {
+			try {
+				Thread.sleep(delay);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
 		}
 		
 		// Pressionar tecla para ESQUERDA
@@ -320,6 +352,17 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			esquerda = true;
 			cima = false;
 			baixo = false;
+			if(tecla != KeyEvent.VK_LEFT)
+			{
+				try {
+					Thread.sleep(delay);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+			}
+
+	
 		}
 		
 		// Pressionar tecla para CIMA
@@ -328,6 +371,14 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			cima = true;
 			direita = false;
 			esquerda = false;
+			if(tecla != KeyEvent.VK_UP) {
+				try {
+					Thread.sleep(delay);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 		
 		// Pressionar tecla para BAIXO
@@ -336,6 +387,14 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			baixo = true;
 			direita = false;
 			esquerda = false;
+			if(tecla != KeyEvent.VK_DOWN) {
+				try {
+					Thread.sleep(delay);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 

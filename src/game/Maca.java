@@ -46,7 +46,6 @@ public class Maca {
 		public void draw(Graphics grafico)
 		{
 			grafico.setColor(Color.RED);
-			
 			// Determina a posição que cada 'corpocobra' será pintado
 			grafico.fillRect(coodX * largura, coodY * altura, largura, altura); 
 		}
@@ -68,6 +67,18 @@ public class Maca {
 		}
 		public void setCoodY(int y) {
 			coodY = y;
+		}
+		public int getLargura() {
+			return largura;
+		}
+		public void setLargura(int largura) {
+			this.largura = largura;
+		}
+		public int getAltura() {
+			return altura;
+		}
+		public void setAltura(int altura) {
+			this.altura = altura;
 		}
 		
 }
