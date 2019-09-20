@@ -53,7 +53,7 @@ public class Maca {
 			// Determina a posição que cada 'corpocobra' será pintado
 			grafico.fillRect(coodX * largura, coodY * altura, largura, altura); 
 			
-			imgMaca = new ImageIcon("Imagens/Maca.jpg");
+			imgMaca = new ImageIcon("Imagens/Maca.png");
 			imgMaca.paintIcon(null, grafico, coodX * largura, coodY * altura);
 		}
 		

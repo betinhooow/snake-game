@@ -25,7 +25,8 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		
 		// Velocidade da cobra em milisegundos e tamanho padrao
 		public static final int VELOCIDADE = 750000;
-		public static final int tamINICIAL = 3;
+		public static final int tamINICIAL = 5;
+		public static final int MAXpontos = 2500;
 		
 		// Direcao de inicio (direita)
 		private boolean direita = true, esquerda = false, cima = false, baixo = false;
@@ -66,7 +67,6 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		private ImageIcon CabecaEsquerda;
 		private ImageIcon CabecaCima;
 		private ImageIcon CabecaBaixo;
-		private ImageIcon Corpo;
 		
 /* 
  * **********************************************************************************************************
@@ -198,7 +198,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 				}
 				
 				// Condicao de final de jogo
-				if((pontos>=500)) 
+				if((pontos >= MAXpontos)) 
 				{//DEVE SER ALTERADO PARA 250 MIL PONTOS apenas para exibir para o professor
 					JOptionPane.showMessageDialog(null, "Parabéns " + name + ", você ganhou!");
 					sairJogo();
@@ -303,7 +303,8 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		while(rastejando)
 		{
 			// Garante que o usuário insira um nome
-			if(name ==null || name.equals("")){
+			if(name ==null || name.equals(""))
+			{
 				JOptionPane.showMessageDialog(null, "Preencha seu nome, por favor!");
 				name = JOptionPane.showInputDialog("Seu nome?");
 				System.out.println(name);
