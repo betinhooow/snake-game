@@ -7,10 +7,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.concurrent.Delayed;
 
 import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -25,8 +23,9 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		
 		private static final long serialVersionUID = 1L;
 		
-		// Velocidade da cobra em milisegundos
+		// Velocidade da cobra em milisegundos e tamanho padrao
 		public static final int VELOCIDADE = 750000;
+		public static final int tamINICIAL = 3;
 		
 		// Direcao de inicio (direita)
 		private boolean direita = true, esquerda = false, cima = false, baixo = false;
@@ -44,14 +43,30 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		private ArrayList<PedacoCobra> cobra;
 		private ArrayList<Maca> macas;
 		
-		
+		// Objeto aleatorio que define o respawn da maca
 		private Random aleatorio;
 		
 		// Coordenada inicial e tamanho que a cobra tera de inicio
-		private int coodX = 5, coodY = 10, tam = 3;
-		private int delay=450;
+		private int coodX = 5, coodY = 10, tam = tamINICIAL;
+		
+		private int delay= 450;
+		
 		private int rastejos = 0;
+		
+		// Pontos do jogador na partida
+		public int pontos = 0;
+		
+		// Nome do jogador
+		public String name = "";
 	
+		// Atributos que definem as imagens,
+		//utilizam classe ImageIcon
+		private ImageIcon Titulo_Imagem;
+		private ImageIcon CabecaDireita;
+		private ImageIcon CabecaEsquerda;
+		private ImageIcon CabecaCima;
+		private ImageIcon CabecaBaixo;
+		private ImageIcon Corpo;
 		
 /* 
  * **********************************************************************************************************
@@ -61,9 +76,8 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	
 	public PainelGrafico () 
 	{
-		
 		// Faz com que o componente tenha a capacidade de obter foco,
-		//sem esse mÃ©todo os "KeyListeners" nao funcionam
+		//sem esse metodo os "KeyListeners" nao funcionam
 		setFocusable(true);
 		addKeyListener(this);
 		
@@ -77,13 +91,9 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	
 /* 
  * **********************************************************************************************************
- * CONSTRUTOR
+ * METODOS
  * **********************************************************************************************************
  */	
-	public int pontos =0;
-	public String name = "";
-	
-	
 	
 	// Metodo INICIAL - inicia a thread de evento do jogo, 
 	//seta run pra true e starta o evento
@@ -98,39 +108,38 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	//seta o running pra false e aguarda a thread ser finalizada
 	//Metodo  FINAL - que servira para parar o jogo, 
 	//seta o running pra false e aguarda a thread ser finalizada
-
 	public void sairJogo()
 	{
-		JOptionPane.showMessageDialog(null, "Este jogo foi desenvolvido por: \n\n Arthur Guedes \n Kevin Barrios \n Matheus Bruder \n Roberto Nobre");
+		JOptionPane.showMessageDialog(null, "Este jogo foi desenvolvido por: \n\n Arthur Guedes \n Kevin Barrios \n Matheus Bruder \n Roberto Nobre \n\n");
 		System.exit(1);
 	}
 	
 	public void reiniciar()
 	{
-	
-		cobra.clear(); //LIMPA A ESTRUTURA DE DADOS
+		//LIMPA A ESTRUTURA DE DADOS
+		cobra.clear(); 
 		macas.clear();
+		
 		String[] opcoes = {"Reiniciar", "Sair"};
 		
 		int input = JOptionPane.showOptionDialog(null, "O que deseja? ", "Game Over!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, opcoes, opcoes[0]);
+		//IF - caso a opcao seja reiniciar
 		if(input == 0)
 		{
 			coodX = 25;
 			coodY = 25;
-			tam = 3;
+			tam = tamINICIAL;
 			pontos = 0;
 			System.out.print("reinicia o jogo\n");			
 		}
+		
+		// ELSE - caso a opcao seja sair do jogo
 		else{
 			System.out.println("Sair do Jogo\n");
 			sairJogo();
-		}
-	
-		
+		}	
 	}
 	
-
-
 	public void rasteja()
 	{
 		// Evitar que a cobra tenha tamanho = 0
@@ -187,17 +196,21 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 					System.out.println(pontos);
 			 
 				}
-				if((pontos>=500)) {//DEVE SER ALTERADO PARA 250 MIL PONTOS apenas para exibir para o professor
-					JOptionPane.showMessageDialog(null, "Você Ganhou!!");
-					System.exit(1);
+				
+				// Condicao de final de jogo
+				if((pontos>=500)) 
+				{//DEVE SER ALTERADO PARA 250 MIL PONTOS apenas para exibir para o professor
+					JOptionPane.showMessageDialog(null, "Parabéns " + name + ", você ganhou!");
+					sairJogo();
 				}
 			}
 			
+			// COLISAO PROPRIA COBRA - Caso a cobra bata nela mesma o jogo deve ser reiniciado
 			for(int i = 0; i < cobra.size(); i++)
 			{
 				if((coodX == cobra.get(i).getCoodX()) && (coodY == cobra.get(i).getCoodY()))
 				{
-					if(i != cobra.size() -1)
+					if(i != cobra.size() - 1)
 					{
 						reiniciar();
 						System.out.println("PERDEU");
@@ -210,45 +223,24 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			if(coodX < 0 || coodX >= 50 || coodY < 5 || coodY >= 55)
 			{		
 				// Excluir cabeca da cobra para nao "estourar"
-				cobra.remove((cobra.size())-1);
-				String[] opcoes = {"Reiniciar", "Sair"};
-				
-				int input = JOptionPane.showOptionDialog(null, "O que deseja? ", "Game Over!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, opcoes, opcoes[0]);
-				if(input == 0)
-				{
-					System.out.print("reinicia o jogo\n");
-					reiniciar();						
-				}
-				else{
-					System.out.println("Sair do Jogo\n");
-					sairJogo();
-				}
+				cobra.remove((cobra.size()) - 1);
+				// Reiniciar jogo
+				reiniciar();
 			}
 		}
 	}
-	private ImageIcon Titulo_Imagem; //classe ImageIcon
-	private ImageIcon CabecaDireita;
-	private ImageIcon CabecaEsquerda;
-	private ImageIcon CabecaCima;
-	private ImageIcon CabecaBaixo;
-	private ImageIcon Corpo;
-	private ImageIcon MACA;
-	
-	
+		
 	public void paint (Graphics grafico) {
 		// Imagem do titulo
 		Titulo_Imagem = new ImageIcon("Imagens/Titulo_Cobra.jpg"); //instanciando uma nova imagem, colocando como parametro o local da imagem
 		Titulo_Imagem.paintIcon(this, grafico, 0, 0);	
+		
 		int fontSize = 20;
-	    grafico.setFont(new Font("TimesRoman", Font.ITALIC, fontSize));
+	    grafico.setFont(new Font("TimesRoman", Font.BOLD, fontSize));
 	     
 	    grafico.setColor(Color.red);
 	    
-	   
-		
-
 		// Retangulo do titulo
-
 		grafico.setColor(Color.BLACK);
 		grafico.drawRect(0, 0, 500, 50);
 		
@@ -276,33 +268,29 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			macas.get(i).draw(grafico);
 		} 
 		
-		
+		// Desenhar na tela o nome do jogador e o numero de pontos (atuais)
 		grafico.setColor(Color.white);
-		grafico.drawString("Jogador: " + name , 5, 30);
+		grafico.drawString("Jogador: " + name , 10, 30);
 		grafico.drawString("Pontos:  " + Integer.toString(pontos), 350, 30);
 		
-		for(int a = 0; a< cobra.size();a++) {
+		for(int a = 0; a < cobra.size(); a++) {
 			if (a == 0 && direita) {
 				CabecaDireita = new ImageIcon("Imagens/CabecaDireita.jpg");
-				CabecaDireita.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
+				CabecaDireita.paintIcon(this, grafico, coodX * PedacoCobra.largura, coodY * PedacoCobra.altura);	
 			}
 			if (a == 0 && esquerda) {
 				CabecaEsquerda = new ImageIcon("Imagens/CabecaEsquerda.jpg");
-				CabecaEsquerda.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
+				CabecaEsquerda.paintIcon(this, grafico, coodX * PedacoCobra.largura, coodY * PedacoCobra.altura);	
 			}
 			if (a == 0 && baixo) {
 				CabecaBaixo = new ImageIcon("Imagens/CabecaBaixo.jpg");
-				CabecaBaixo.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
+				CabecaBaixo.paintIcon(this, grafico, coodX * PedacoCobra.largura, coodY * PedacoCobra.altura);	
 			}
 			if (a == 0 && cima) {
 				CabecaCima = new ImageIcon("Imagens/CabecaCima.jpg");
-				CabecaCima.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
+				CabecaCima.paintIcon(this, grafico, coodX * PedacoCobra.largura, coodY * PedacoCobra.altura);	
 			}	
-		}
-	
-			
-		
-			
+		}		
 	}
 	
 	@Override
@@ -311,13 +299,10 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	 * OBS -> Obrigatoria a implementacao dela quando a classe sera executada por meio de uma thread
 	 */
 	public void run() {
-		// TODO Auto-generated method stub
-		
-			
-		
+		// TODO Auto-generated method stub		
 		while(rastejando)
 		{
-			//Garante que o usuário insira um nome
+			// Garante que o usuário insira um nome
 			if(name ==null || name.equals("")){
 				JOptionPane.showMessageDialog(null, "Preencha seu nome, por favor!");
 				name = JOptionPane.showInputDialog("Seu nome?");
@@ -422,6 +407,4 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
-	
-
 }

@@ -3,6 +3,8 @@ package game;
 import java.awt.Color;
 import java.awt.Graphics;
 
+import javax.swing.ImageIcon;
+
 public class Maca {
 	
 	// CLASSE MACA DEVE SER IDENTICA A CLASSE PEDACOCORPO!
@@ -15,6 +17,8 @@ public class Maca {
 		
 		// Coordenadas do bloco, largura e altura do pixel do segmento do corpo
 		private int coodX, coodY, largura, altura;
+		
+		private ImageIcon imgMaca;
 		
 /* 
  * ************************************************************************************************************
@@ -42,12 +46,15 @@ public class Maca {
 		}
 		
 		// 	Quando instanciado um novo segmento, esse metodo é chamado para colorir e preencher o retangulo criado,
-	    //para depois adicionarmos a lista da cobra
+	    //para depois adicionarmos a lista de macas
 		public void draw(Graphics grafico)
 		{
 			grafico.setColor(Color.RED);
 			// Determina a posição que cada 'corpocobra' será pintado
 			grafico.fillRect(coodX * largura, coodY * altura, largura, altura); 
+			
+			imgMaca = new ImageIcon("Imagens/Maca.jpg");
+			imgMaca.paintIcon(null, grafico, coodX * largura, coodY * altura);
 		}
 		
 /* 
