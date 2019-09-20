@@ -177,8 +177,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			if(coodX < 0 || coodX >= 50 || coodY < 5 || coodY >= 55)
 			{		
 				// Excluir cabeca da cobra para nao "estourar"
-				cobra.remove((cobra.size()) - 1);
-				
+				cobra.remove((cobra.size())-1);
 				String[] opcoes = {"Reiniciar", "Sair"};
 				
 				int input = JOptionPane.showOptionDialog(null, "O que deseja? ", "Game Over!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, opcoes, opcoes[0]);
@@ -262,11 +261,11 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 				CabecaBaixo.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
 			}
 			if (a == 0 && cima) {
-				CabecaBaixo = new ImageIcon("Imagens/CabecaCima.jpg");
-				CabecaBaixo.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
+				CabecaCima = new ImageIcon("Imagens/CabecaCima.jpg");
+				CabecaCima.paintIcon(this,grafico, coodX * PedacoCobra.largura , coodY*PedacoCobra.altura);	
 			}	
 		}
-			
+	
 			
 		
 			
