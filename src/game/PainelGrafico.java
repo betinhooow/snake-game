@@ -7,6 +7,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
+import java.io.File;
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -26,7 +30,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		// Velocidade da cobra em milisegundos e tamanho padrao
 		public static final int VELOCIDADE = 750000;
 		public static final int tamINICIAL = 5;
-		public static final int MAXpontos = 2500;
+		public static final int MAXpontos = 25000;
 		
 		// Direcao de inicio (direita)
 		private boolean direita = true, esquerda = false, cima = false, baixo = false;
@@ -192,6 +196,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 					tam++;
 					macas.remove(i);
 					i++;
+					executaSom("Sons/Comendo.wav");
 					pontos+=100;
 					System.out.println(pontos);
 			 
@@ -200,6 +205,8 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 				// Condicao de final de jogo
 				if((pontos >= MAXpontos)) 
 				{//DEVE SER ALTERADO PARA 250 MIL PONTOS apenas para exibir para o professor
+					executaSom("Sons/Ganhou.wav");
+
 					JOptionPane.showMessageDialog(null, "Parabéns " + name + ", você ganhou!");
 					sairJogo();
 				}
@@ -212,8 +219,10 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 				{
 					if(i != cobra.size() - 1)
 					{
+						executaSom("Sons/Perdendo.wav");
 						reiniciar();
 						System.out.println("PERDEU");
+						
 					}
 				}
 			}
@@ -221,9 +230,11 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			//como temos 500 pixels na horizontal e na vertical divididos por 10,
 			//pode-se andar 50 quadrados na vertical e horizontal ao longo do mapa
 			if(coodX < 0 || coodX >= 50 || coodY < 5 || coodY >= 55)
-			{		
+			{	
+				executaSom("Sons/Game_Over.wav");
 				// Excluir cabeca da cobra para nao "estourar"
 				cobra.remove((cobra.size()) - 1);
+				
 				// Reiniciar jogo
 				reiniciar();
 			}
@@ -408,4 +419,24 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	//metodo de executar som
+    public void executaSom(String caminho) {
+        try {
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(caminho).getAbsoluteFile());
+            Clip clip = AudioSystem.getClip(); //instanciando 
+            clip.open(audioInputStream); //abrir o arquivo
+            clip.start(); //executar o arquivo de som
+        } catch (Exception ex) {
+            System.out.println("Erro ao executar SOM!");
+            ex.printStackTrace();
+        }
+    }
 }
+	
+	
+	
+
+
+
+
