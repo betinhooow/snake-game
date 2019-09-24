@@ -38,26 +38,21 @@ public class Maca {
  * ************************************************************************************************************
  * METODOS
  * ************************************************************************************************************
- */
-		// Ainda não implementado
-		public void rasteja()
-		{
-			
-		}
-		
+ */		
 		// 	Quando instanciado um novo segmento, esse metodo é chamado para colorir e preencher o retangulo criado,
 	    //para depois adicionarmos a lista de macas
 		public void draw(Graphics grafico)
 		{
 			grafico.setColor(Color.RED);
 			// Determina a posição que cada 'corpocobra' será pintado
-			grafico.fillRect(coodX * largura, coodY * altura, largura, altura); 
+			grafico.fillRect(getCoodX() * getLargura(), getCoodY() * getAltura(), getLargura(), getAltura()); 
 			
-			imgMaca = new ImageIcon("Imagens/Maca.png");
-			imgMaca.paintIcon(null, grafico, coodX * largura, coodY * altura);
+			setImgMaca(new ImageIcon("Imagens/Maca.png"));
+			getImgMaca().paintIcon(null, grafico, getCoodX() * getLargura(), getCoodY() * getAltura());
 		}
 		
-/* 
+
+		/* 
  * ************************************************************************************************************
  * MÉTODOS ACESSORES
  * ************************************************************************************************************
@@ -88,4 +83,10 @@ public class Maca {
 			this.altura = altura;
 		}
 		
+		public ImageIcon getImgMaca() {
+			return imgMaca;
+		}
+		public void setImgMaca(ImageIcon imgMaca) {
+			this.imgMaca = imgMaca;
+		}
 }

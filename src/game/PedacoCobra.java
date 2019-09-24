@@ -46,13 +46,13 @@ public class PedacoCobra {
 		grafico.setColor(Color.GREEN);
 		
 		// Determina a posição que cada 'corpocobra' será pintado
-		grafico.fillRect(coodX * largura, coodY * altura, largura, altura); 
+		grafico.fillRect(getCoodX() * getLargura(), getCoodY() * getAltura(), getLargura(), getAltura()); 
 		
-		imgCorpoCobra = new ImageIcon("Imagens/CorpoCobra.jpg");
-		imgCorpoCobra.paintIcon(null, grafico, coodX * largura, coodY * altura);
+		setImgCorpoCobra(new ImageIcon("Imagens/CorpoCobra.jpg"));
+		getImgCorpoCobra().paintIcon(null, grafico, getCoodX() * getLargura(), getCoodY() * getAltura());
 	}
-	
-/* 
+
+	/* 
  * ************************************************************************************************************
  * MÉTODOS ACESSORES
  * ************************************************************************************************************
@@ -70,7 +70,30 @@ public class PedacoCobra {
 	public void setCoodY(int y) {
 		coodY = y;
 	}
+
+	public static int getLargura() {
+		return largura;
+	}
+
+	public static void setLargura(int largura) {
+		PedacoCobra.largura = largura;
+	}
+
+	public static int getAltura() {
+		return altura;
+	}
+
+	public static void setAltura(int altura) {
+		PedacoCobra.altura = altura;
+	}
 	
+	public ImageIcon getImgCorpoCobra() {
+		return imgCorpoCobra;
+	}
+
+	public void setImgCorpoCobra(ImageIcon imgCorpoCobra) {
+		this.imgCorpoCobra = imgCorpoCobra;
+	}
 	
 	
 	

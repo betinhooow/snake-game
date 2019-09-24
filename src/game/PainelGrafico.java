@@ -30,7 +30,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		// Velocidade da cobra em milisegundos e tamanho padrao
 		public static final int VELOCIDADE = 750000;
 		public static final int tamINICIAL = 5;
-		public static final int MAXpontos = 25000;
+		public static final int MAXpontos = 500;
 		
 		// Direcao de inicio (direita)
 		private boolean direita = true, esquerda = false, cima = false, baixo = false;
@@ -80,6 +80,8 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	
 	public PainelGrafico () 
 	{
+		//executaSom("Sons/");
+		
 		// Faz com que o componente tenha a capacidade de obter foco,
 		//sem esse metodo os "KeyListeners" nao funcionam
 		setFocusable(true);
@@ -103,11 +105,13 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	//seta run pra true e starta o evento
 	public void iniciaJogo()
 	{
-		rastejando = true;
+		setRastejando(true);
+		
 		thread = new Thread(this);
 		thread.start();
 	}
-	
+
+
 	//Metodo  FINAL - que servira para parar o jogo, 
 	//seta o running pra false e aguarda a thread ser finalizada
 	//Metodo  FINAL - que servira para parar o jogo, 
@@ -130,10 +134,10 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		//IF - caso a opcao seja reiniciar
 		if(input == 0)
 		{
-			coodX = 25;
-			coodY = 25;
-			tam = tamINICIAL;
-			pontos = 0;
+			setCoodX(25);
+			setCoodY(25);
+			setTamanho(tamINICIAL);
+			setPontos(0);
 			System.out.print("reinicia o jogo\n");			
 		}
 		
@@ -143,71 +147,70 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			sairJogo();
 		}	
 	}
-	
+
 	public void rasteja()
 	{
 		// Evitar que a cobra tenha tamanho = 0
 		if(cobra.size() == 0)
 		{
-			pedacoCobra = new PedacoCobra(coodX, coodY, 10);
+			pedacoCobra = new PedacoCobra(getCoodX(), getCoodY(), 10);
 			cobra.add(pedacoCobra);
 		}
-		//incrementa o contador da thread
-		rastejos++; 
+		//incrementa o contador da thread 
+		setRastejos(getRastejos() + 1);
 		
-		if(rastejos > VELOCIDADE)
+		if(getRastejos() > VELOCIDADE)
 		{
 			// Baseado na direcao atual, 
-			//altera a posicao que sera incrementada na matriz
-			if(direita ) 	{coodX++;}
-			if(esquerda) 	{coodX--;}
-			if(cima) 		{coodY--;}
-			if(baixo) 		{coodY++;}
+			//altera a posicao que sera incrementada
+			if(isDireita()) 	{setCoodX(getCoodX() + 1);}
+			if(isEsquerda()) 	{setCoodX(getCoodX() - 1);}
+			if(isCima()) 		{setCoodY(getCoodY() - 1);}
+			if(isBaixo()) 		{setCoodY(getCoodY() + 1);}
 			
 			// Zera o contador da thread
-			rastejos = 0;
+			setRastejos(0);
 			
 			// Adiciona mais um item a frente a cada rastejada que ela da
-			pedacoCobra = new PedacoCobra(coodX, coodY, 10);
+			pedacoCobra = new PedacoCobra(getCoodX(), getCoodY(), 10);
 			cobra.add(pedacoCobra);
 			
-			if(cobra.size() > tam)
+			if(cobra.size() > getTamanho())
 			{
 				cobra.remove(0);
 			}
 			
 			if(macas.size() == 0)
 			{
-				// Gera uma posicao aleatoria para gerar a maca a cada iteraccao
-				int coodX = aleatorio.nextInt(49);
+				// Gera uma posicao aleatoria para gerar a maca a cada iteracao
+				int macaCoodX = aleatorio.nextInt(49);
 				// Deve ser '+5' devido ao inicio do painel do jogo
-				int coodY = aleatorio.nextInt(49)+5;
+				int macaCoodY = aleatorio.nextInt(49)+5;
 				
 				// Cria a maca e adiciona ao vetor
-				maca = new Maca(coodX, coodY, 10);
+				maca = new Maca(macaCoodX, macaCoodY, 10);
 				macas.add(maca);
 			}
 			
 			//Algoritmo responsavel por "comer a maca" e impedir que de respawn em cima da propria cobra
 			for(int i = 0; i < macas.size(); i++)
 			{
-				if((coodX == macas.get(i).getCoodX()) && (coodY == macas.get(i).getCoodY()))
+				if((getCoodX() == macas.get(i).getCoodX()) && (getCoodY() == macas.get(i).getCoodY()))
 				{
-					tam++;
+					setTamanho(getTamanho() + 1);
 					macas.remove(i);
 					i++;
 					executaSom("Sons/Comendo.wav");
-					pontos+=100;
-					System.out.println(pontos);
+					setPontos(getPontos() + 100);
+					System.out.println(getPontos());
 			 
 				}
 				
 				// Condicao de final de jogo
-				if((pontos >= MAXpontos)) 
+				if((getPontos() >= MAXpontos)) 
 				{//DEVE SER ALTERADO PARA 250 MIL PONTOS apenas para exibir para o professor
 					executaSom("Sons/Ganhou.wav");
-
-					JOptionPane.showMessageDialog(null, "Parabéns " + name + ", você ganhou!");
+					JOptionPane.showMessageDialog(null, "Parabéns " + getName() + ", você ganhou!");
 					sairJogo();
 				}
 			}
@@ -215,7 +218,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			// COLISAO PROPRIA COBRA - Caso a cobra bata nela mesma o jogo deve ser reiniciado
 			for(int i = 0; i < cobra.size(); i++)
 			{
-				if((coodX == cobra.get(i).getCoodX()) && (coodY == cobra.get(i).getCoodY()))
+				if((getCoodX() == cobra.get(i).getCoodX()) && (getCoodY() == cobra.get(i).getCoodY()))
 				{
 					if(i != cobra.size() - 1)
 					{
@@ -229,7 +232,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			// COLISAO BORDA = Limite maximo que a cobra pode andar no frame,
 			//como temos 500 pixels na horizontal e na vertical divididos por 10,
 			//pode-se andar 50 quadrados na vertical e horizontal ao longo do mapa
-			if(coodX < 0 || coodX >= 50 || coodY < 5 || coodY >= 55)
+			if(getCoodX() < 0 || getCoodX() >= 50 || getCoodY() < 5 || getCoodY() >= 55)
 			{	
 				executaSom("Sons/Game_Over.wav");
 				// Excluir cabeca da cobra para nao "estourar"
@@ -240,7 +243,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			}
 		}
 	}
-		
+
 	public void paint (Graphics grafico) {
 		// Imagem do titulo
 		Titulo_Imagem = new ImageIcon("Imagens/Titulo_Cobra.jpg"); //instanciando uma nova imagem, colocando como parametro o local da imagem
@@ -281,29 +284,30 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		
 		// Desenhar na tela o nome do jogador e o numero de pontos (atuais)
 		grafico.setColor(Color.white);
-		grafico.drawString("Jogador: " + name , 10, 30);
-		grafico.drawString("Pontos:  " + Integer.toString(pontos), 350, 30);
+		grafico.drawString("Jogador: " + getName() , 10, 30);
+		grafico.drawString("Pontos:  " + Integer.toString(getPontos()), 350, 30);
 		
 		for(int a = 0; a < cobra.size(); a++) {
-			if (a == 0 && direita) {
+			if (a == 0 && isDireita()) {
 				CabecaDireita = new ImageIcon("Imagens/CabecaDireita.jpg");
-				CabecaDireita.paintIcon(this, grafico, coodX * PedacoCobra.largura, coodY * PedacoCobra.altura);	
+				CabecaDireita.paintIcon(this, grafico, getCoodX() * PedacoCobra.getLargura(), getCoodY() * PedacoCobra.getAltura());	
 			}
-			if (a == 0 && esquerda) {
+			if (a == 0 && isEsquerda()) {
 				CabecaEsquerda = new ImageIcon("Imagens/CabecaEsquerda.jpg");
-				CabecaEsquerda.paintIcon(this, grafico, coodX * PedacoCobra.largura, coodY * PedacoCobra.altura);	
+				CabecaEsquerda.paintIcon(this, grafico, getCoodX() * PedacoCobra.getLargura(), getCoodY() * PedacoCobra.getAltura());	
 			}
-			if (a == 0 && baixo) {
+			if (a == 0 && isBaixo()) {
 				CabecaBaixo = new ImageIcon("Imagens/CabecaBaixo.jpg");
-				CabecaBaixo.paintIcon(this, grafico, coodX * PedacoCobra.largura, coodY * PedacoCobra.altura);	
+				CabecaBaixo.paintIcon(this, grafico, getCoodX() * PedacoCobra.getLargura(), getCoodY() * PedacoCobra.getAltura());	
 			}
-			if (a == 0 && cima) {
+			if (a == 0 && isCima()) {
 				CabecaCima = new ImageIcon("Imagens/CabecaCima.jpg");
-				CabecaCima.paintIcon(this, grafico, coodX * PedacoCobra.largura, coodY * PedacoCobra.altura);	
+				CabecaCima.paintIcon(this, grafico, getCoodX() * PedacoCobra.getLargura(), getCoodY() * PedacoCobra.getAltura());	
 			}	
 		}		
 	}
 	
+
 	@Override
 	/*
 	 * Metodo sobrescrito da interface Runnable!!!
@@ -311,14 +315,14 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	 */
 	public void run() {
 		// TODO Auto-generated method stub		
-		while(rastejando)
+		while(isRastejando())
 		{
 			// Garante que o usuário insira um nome
-			if(name ==null || name.equals(""))
+			if(getName() == null || getName().equals(""))
 			{
 				JOptionPane.showMessageDialog(null, "Preencha seu nome, por favor!");
-				name = JOptionPane.showInputDialog("Seu nome?");
-				System.out.println(name);
+				setName(JOptionPane.showInputDialog("Seu nome?"));
+				System.out.println(getName());
 				continue;
 			}
 			// 	Enquanto estiver rodando chama a classe que usa o contador da thread
@@ -338,11 +342,11 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		int tecla = evento.getKeyCode();
 		
 		// Pressionar tecla para DIREITA (padrao de inicio)
-		if((tecla == KeyEvent.VK_RIGHT) && (!esquerda))
+		if((tecla == KeyEvent.VK_RIGHT) && (!(isEsquerda())))
 		{
-			direita = true;
-			cima = false;
-			baixo = false;
+			setDireita(true);
+			setCima(false);
+			setBaixo(false);
 		if(tecla != KeyEvent.VK_RIGHT) {
 			try {
 				Thread.sleep(delay);
@@ -355,11 +359,11 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		}
 		
 		// Pressionar tecla para ESQUERDA
-		if((tecla == KeyEvent.VK_LEFT) && (!direita))
+		if((tecla == KeyEvent.VK_LEFT) && (!(isDireita())))
 		{
-			esquerda = true;
-			cima = false;
-			baixo = false;
+			setEsquerda(true);
+			setCima(false);
+			setBaixo(false);
 			if(tecla != KeyEvent.VK_LEFT)
 			{
 				try {
@@ -369,16 +373,14 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 					e.printStackTrace();
 				}	
 			}
-
-	
 		}
 		
 		// Pressionar tecla para CIMA
-		if((tecla == KeyEvent.VK_UP) && (!baixo))
+		if((tecla == KeyEvent.VK_UP) && (!(isBaixo())))
 		{
-			cima = true;
-			direita = false;
-			esquerda = false;
+			setCima(true);
+			setDireita(false);
+			setEsquerda(false);
 			if(tecla != KeyEvent.VK_UP) {
 				try {
 					Thread.sleep(delay);
@@ -390,11 +392,11 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		}
 		
 		// Pressionar tecla para BAIXO
-		if((tecla == KeyEvent.VK_DOWN) && (!cima))
+		if((tecla == KeyEvent.VK_DOWN) && (!(isCima())))
 		{
-			baixo = true;
-			direita = false;
-			esquerda = false;
+			setBaixo(true);
+			setDireita(false);
+			setEsquerda(false);
 			if(tecla != KeyEvent.VK_DOWN) {
 				try {
 					Thread.sleep(delay);
@@ -432,11 +434,99 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
             ex.printStackTrace();
         }
     }
+
+	
+/* 
+ * **********************************************************************************************************
+ * METODOS ACESSORES
+ * **********************************************************************************************************
+ */	
+
+    public boolean isRastejando() {
+		return rastejando;
+	}
+
+	public void setRastejando(boolean rastejando) {
+		this.rastejando = rastejando;
+	}
+	
+	public int getRastejos() {
+		return rastejos;
+	}
+	
+	public void setRastejos(int rastejos) {
+		this.rastejos = rastejos;
+	}
+	
+	public int getCoodX() {
+		return coodX;
+	}
+
+	public void setCoodX(int coodX) {
+		this.coodX = coodX;
+	}
+
+	public int getCoodY() {
+		return coodY;
+	}
+
+	public void setCoodY(int coodY) {
+		this.coodY = coodY;
+	}
+	
+	public boolean isDireita() {
+		return direita;
+	}
+
+	public void setDireita(boolean direita) {
+		this.direita = direita;
+	}
+
+	public boolean isEsquerda() {
+		return esquerda;
+	}
+
+	public void setEsquerda(boolean esquerda) {
+		this.esquerda = esquerda;
+	}
+
+	public boolean isCima() {
+		return cima;
+	}
+
+	public void setCima(boolean cima) {
+		this.cima = cima;
+	}
+
+	public boolean isBaixo() {
+		return baixo;
+	}
+
+	public void setBaixo(boolean baixo) {
+		this.baixo = baixo;
+	}
+
+	public int getPontos() {
+		return pontos;
+	}
+
+	public void setPontos(int pontos) {
+		this.pontos = pontos;
+	}
+	
+	public int getTamanho() {
+		return tam;
+	}
+
+	public void setTamanho(int tam) {
+		this.tam = tam;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
 }
-	
-	
-	
-
-
-
-
