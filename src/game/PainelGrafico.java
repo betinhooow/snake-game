@@ -80,7 +80,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	
 	public PainelGrafico () 
 	{
-		//executaSom("Sons/");
+		executaSom("Sons/Menu.wav");
 		
 		// Faz com que o componente tenha a capacidade de obter foco,
 		//sem esse metodo os "KeyListeners" nao funcionam
