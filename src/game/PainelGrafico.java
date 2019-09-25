@@ -48,6 +48,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		private ArrayList<PedacoCobra> cobra;
 		private ArrayList<Maca> macas;
 		
+		
 		// Objeto aleatorio que define o respawn da maca
 		private Random aleatorio;
 		
@@ -56,11 +57,14 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		
 		private int delay = 450;
 		
+		
 		private int rastejos = 0;
 		
 		// Pontos do jogador na partida
 		public int pontos = 0;
 		
+		//Flag só permite acionar um novo movimento após a cobra se mover.
+		public int flag = 0;
 		// Nome do jogador
 		public String name = "";
 	
@@ -174,7 +178,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			// Adiciona mais um item a frente a cada rastejada que ela da
 			pedacoCobra = new PedacoCobra(getCoodX(), getCoodY(), 10);
 			cobra.add(pedacoCobra);
-			
+			flag = 0; //FLAG
 			if(cobra.size() > getTamanho())
 			{
 				cobra.remove(0);
@@ -246,7 +250,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 
 	public void paint (Graphics grafico) {
 		// Imagem do titulo
-		Titulo_Imagem = new ImageIcon("Imagens/Titulo_Cobra.jpg"); //instanciando uma nova imagem, colocando como parametro o local da imagem
+		Titulo_Imagem = new ImageIcon(getClass().getClassLoader().getResource("Imagens/Titulo_Cobra.jpg")); //instanciando uma nova imagem, colocando como parametro o local da imagem
 		Titulo_Imagem.paintIcon(this, grafico, 0, 0);	
 		
 		int fontSize = 20;
@@ -289,19 +293,20 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		
 		for(int a = 0; a < cobra.size(); a++) {
 			if (a == 0 && isDireita()) {
-				CabecaDireita = new ImageIcon("Imagens/CabecaDireita.jpg");
+				
+				CabecaDireita = new ImageIcon(getClass().getClassLoader().getResource("Imagens/CabecaDireita.jpg"));
 				CabecaDireita.paintIcon(this, grafico, getCoodX() * PedacoCobra.getLargura(), getCoodY() * PedacoCobra.getAltura());	
 			}
 			if (a == 0 && isEsquerda()) {
-				CabecaEsquerda = new ImageIcon("Imagens/CabecaEsquerda.jpg");
+				CabecaEsquerda = new ImageIcon(getClass().getClassLoader().getResource("Imagens/CabecaEsquerda.jpg"));
 				CabecaEsquerda.paintIcon(this, grafico, getCoodX() * PedacoCobra.getLargura(), getCoodY() * PedacoCobra.getAltura());	
 			}
 			if (a == 0 && isBaixo()) {
-				CabecaBaixo = new ImageIcon("Imagens/CabecaBaixo.jpg");
+				CabecaBaixo = new ImageIcon(getClass().getClassLoader().getResource("Imagens/CabecaBaixo.jpg"));
 				CabecaBaixo.paintIcon(this, grafico, getCoodX() * PedacoCobra.getLargura(), getCoodY() * PedacoCobra.getAltura());	
 			}
 			if (a == 0 && isCima()) {
-				CabecaCima = new ImageIcon("Imagens/CabecaCima.jpg");
+				CabecaCima = new ImageIcon(getClass().getClassLoader().getResource("Imagens/CabecaCima.jpg"));
 				CabecaCima.paintIcon(this, grafico, getCoodX() * PedacoCobra.getLargura(), getCoodY() * PedacoCobra.getAltura());	
 			}	
 		}		
@@ -317,7 +322,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		// TODO Auto-generated method stub		
 		while(isRastejando())
 		{
-			// Garante que o usuário insira um nome
+			// Garante que o usuÃ¡rio insira um nome
 			if(getName() == null || getName().equals(""))
 			{
 				JOptionPane.showMessageDialog(null, "Preencha seu nome, por favor!");
@@ -342,69 +347,42 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		int tecla = evento.getKeyCode();
 		
 		// Pressionar tecla para DIREITA (padrao de inicio)
-		if((tecla == KeyEvent.VK_RIGHT) && (!(isEsquerda())))
+		if((tecla == KeyEvent.VK_RIGHT) && (!(isEsquerda())) && (flag !=1))
 		{
 			setDireita(true);
 			setCima(false);
 			setBaixo(false);
-		if(tecla != KeyEvent.VK_RIGHT) {
-			try {
-				Thread.sleep(delay);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+			flag = 1;
 			
 		}
 		
 		// Pressionar tecla para ESQUERDA
-		if((tecla == KeyEvent.VK_LEFT) && (!(isDireita())))
+		if((tecla == KeyEvent.VK_LEFT) && (!(isDireita()))  && (flag !=1))
 		{
 			setEsquerda(true);
 			setCima(false);
 			setBaixo(false);
-			if(tecla != KeyEvent.VK_LEFT)
-			{
-				try {
-					Thread.sleep(delay);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}	
-			}
+			flag = 1;
 		}
 		
 		// Pressionar tecla para CIMA
-		if((tecla == KeyEvent.VK_UP) && (!(isBaixo())))
+		if((tecla == KeyEvent.VK_UP) && (!(isBaixo())) && (flag !=1))
 		{
 			setCima(true);
 			setDireita(false);
 			setEsquerda(false);
-			if(tecla != KeyEvent.VK_UP) {
-				try {
-					Thread.sleep(delay);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			flag = 1;
+			
 		}
 		
 		// Pressionar tecla para BAIXO
-		if((tecla == KeyEvent.VK_DOWN) && (!(isCima())))
+		if((tecla == KeyEvent.VK_DOWN) && (!(isCima())) && (flag !=1) )
 		{
 			setBaixo(true);
 			setDireita(false);
 			setEsquerda(false);
-			if(tecla != KeyEvent.VK_DOWN) {
-				try {
-					Thread.sleep(delay);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
+			flag = 1;
+	
 		}
 	}
 
@@ -425,7 +403,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	//metodo de executar som
     public void executaSom(String caminho) {
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(caminho).getAbsoluteFile());
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResource(caminho));
             Clip clip = AudioSystem.getClip(); //instanciando 
             clip.open(audioInputStream); //abrir o arquivo
             clip.start(); //executar o arquivo de som
