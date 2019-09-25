@@ -246,7 +246,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 
 	public void paint (Graphics grafico) {
 		// Imagem do titulo
-		Titulo_Imagem = new ImageIcon("Imagens/Titulo_Cobra.jpg"); //instanciando uma nova imagem, colocando como parametro o local da imagem
+		Titulo_Imagem = new ImageIcon(getClass().getClassLoader().getResource("Imagens/Titulo_Cobra.jpg")); //instanciando uma nova imagem, colocando como parametro o local da imagem
 		Titulo_Imagem.paintIcon(this, grafico, 0, 0);	
 		
 		int fontSize = 20;
@@ -289,19 +289,19 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		
 		for(int a = 0; a < cobra.size(); a++) {
 			if (a == 0 && isDireita()) {
-				CabecaDireita = new ImageIcon("Imagens/CabecaDireita.jpg");
+				CabecaDireita = new ImageIcon(getClass().getClassLoader().getResource("Imagens/CabecaDireita.jpg"));
 				CabecaDireita.paintIcon(this, grafico, getCoodX() * PedacoCobra.getLargura(), getCoodY() * PedacoCobra.getAltura());	
 			}
 			if (a == 0 && isEsquerda()) {
-				CabecaEsquerda = new ImageIcon("Imagens/CabecaEsquerda.jpg");
+				CabecaEsquerda = new ImageIcon(getClass().getClassLoader().getResource("Imagens/CabecaEsquerda.jpg"));
 				CabecaEsquerda.paintIcon(this, grafico, getCoodX() * PedacoCobra.getLargura(), getCoodY() * PedacoCobra.getAltura());	
 			}
 			if (a == 0 && isBaixo()) {
-				CabecaBaixo = new ImageIcon("Imagens/CabecaBaixo.jpg");
+				CabecaBaixo = new ImageIcon(getClass().getClassLoader().getResource("Imagens/CabecaBaixo.jpg"));
 				CabecaBaixo.paintIcon(this, grafico, getCoodX() * PedacoCobra.getLargura(), getCoodY() * PedacoCobra.getAltura());	
 			}
 			if (a == 0 && isCima()) {
-				CabecaCima = new ImageIcon("Imagens/CabecaCima.jpg");
+				CabecaCima = new ImageIcon(getClass().getClassLoader().getResource("Imagens/CabecaCima.jpg"));
 				CabecaCima.paintIcon(this, grafico, getCoodX() * PedacoCobra.getLargura(), getCoodY() * PedacoCobra.getAltura());	
 			}	
 		}		
@@ -317,7 +317,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		// TODO Auto-generated method stub		
 		while(isRastejando())
 		{
-			// Garante que o usuário insira um nome
+			// Garante que o usuÃ¡rio insira um nome
 			if(getName() == null || getName().equals(""))
 			{
 				JOptionPane.showMessageDialog(null, "Preencha seu nome, por favor!");
@@ -425,7 +425,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 	//metodo de executar som
     public void executaSom(String caminho) {
         try {
-            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(new File(caminho).getAbsoluteFile());
+            AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(getClass().getClassLoader().getResource(caminho));
             Clip clip = AudioSystem.getClip(); //instanciando 
             clip.open(audioInputStream); //abrir o arquivo
             clip.start(); //executar o arquivo de som
