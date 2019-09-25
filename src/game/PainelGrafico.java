@@ -54,7 +54,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		// Coordenada inicial e tamanho que a cobra tera de inicio
 		private int coodX = 5, coodY = 10, tam = tamINICIAL;
 		
-		private int delay= 450;
+		private int delay = 450;
 		
 		private int rastejos = 0;
 		
