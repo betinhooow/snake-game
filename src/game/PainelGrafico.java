@@ -7,10 +7,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
-<<<<<<< HEAD
-=======
-
->>>>>>> c63cf79e4fb9f0f72025d9a69442324dffd15c59
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -56,11 +52,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		
 		// Coordenada inicial e tamanho que a cobra tera de inicio
 		private int coodX = 5, coodY = 10, tam = tamINICIAL;
-		
-<<<<<<< HEAD
-=======
-		
->>>>>>> c63cf79e4fb9f0f72025d9a69442324dffd15c59
+
 		private int rastejos = 0;
 		
 		// Pontos do jogador na partida
