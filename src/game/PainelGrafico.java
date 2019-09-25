@@ -7,11 +7,10 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
-import java.io.File;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
-
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -54,8 +53,6 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		
 		// Coordenada inicial e tamanho que a cobra tera de inicio
 		private int coodX = 5, coodY = 10, tam = tamINICIAL;
-		
-		private int delay = 450;
 		
 		
 		private int rastejos = 0;
