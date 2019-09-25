@@ -48,7 +48,7 @@ public class PedacoCobra {
 		// Determina a posição que cada 'corpocobra' será pintado
 		grafico.fillRect(getCoodX() * getLargura(), getCoodY() * getAltura(), getLargura(), getAltura()); 
 		
-		setImgCorpoCobra(new ImageIcon("Imagens/CorpoCobra.jpg"));
+		setImgCorpoCobra(new ImageIcon(getClass().getClassLoader().getResource("Imagens/CorpoCobra.jpg")));
 		getImgCorpoCobra().paintIcon(null, grafico, getCoodX() * getLargura(), getCoodY() * getAltura());
 	}
 
