@@ -16,7 +16,9 @@ public class Maca {
  */
 		
 		// Coordenadas do bloco, largura e altura do pixel do segmento do corpo
-		private int coodX, coodY, largura, altura;
+		private  int coodX, coodY;
+		public static int largura;
+		public static int altura;
 		
 		private ImageIcon imgMaca;
 		
@@ -74,13 +76,13 @@ public class Maca {
 			return largura;
 		}
 		public void setLargura(int largura) {
-			this.largura = largura;
+			Maca.largura = largura;
 		}
 		public int getAltura() {
 			return altura;
 		}
 		public void setAltura(int altura) {
-			this.altura = altura;
+			Maca.altura = altura;
 		}
 		
 		public ImageIcon getImgMaca() {
