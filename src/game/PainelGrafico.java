@@ -16,8 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class PainelGrafico extends JPanel implements Runnable, KeyListener {
-
-
+	
 /* 
  * **********************************************************************************************************
  * ATRIBUTOS
@@ -409,7 +408,6 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
             ex.printStackTrace();
         }
     }
-
 	
 /* 
  * **********************************************************************************************************
