@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Random;
+
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
@@ -15,8 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 public class PainelGrafico extends JPanel implements Runnable, KeyListener {
-
-
+	
 /* 
  * **********************************************************************************************************
  * ATRIBUTOS
@@ -52,7 +52,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		
 		// Coordenada inicial e tamanho que a cobra tera de inicio
 		private int coodX = 5, coodY = 10, tam = tamINICIAL;
-
+		
 		private int rastejos = 0;
 		
 		// Pontos do jogador na partida
@@ -60,6 +60,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		
 		//Flag só permite acionar um novo movimento após a cobra se mover.
 		public int flag = 0;
+		
 		// Nome do jogador
 		public String name = "";
 	
@@ -245,11 +246,14 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 
 	public void paint (Graphics grafico) {
 		// Imagem do titulo
+		// getResource - pega o caminho do arquivo
+		// getClassLoader - pega todos os caminhos absolutos, ou seja, ele engloba outros pacotes
+		// getClass - acessa src
 		Titulo_Imagem = new ImageIcon(getClass().getClassLoader().getResource("Imagens/Titulo_Cobra.jpg")); //instanciando uma nova imagem, colocando como parametro o local da imagem
 		Titulo_Imagem.paintIcon(this, grafico, 0, 0);	
 		
 		int fontSize = 20;
-	    grafico.setFont(new Font("TimesRoman", Font.BOLD, fontSize));
+	    grafico.setFont(new Font("Courier", Font.ITALIC, fontSize));
 	     
 	    grafico.setColor(Color.red);
 	    
@@ -348,7 +352,6 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			setCima(false);
 			setBaixo(false);
 			flag = 1;
-			
 		}
 		
 		// Pressionar tecla para ESQUERDA
@@ -367,7 +370,6 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			setDireita(false);
 			setEsquerda(false);
 			flag = 1;
-			
 		}
 		
 		// Pressionar tecla para BAIXO
@@ -377,7 +379,6 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			setDireita(false);
 			setEsquerda(false);
 			flag = 1;
-	
 		}
 	}
 
@@ -407,7 +408,6 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
             ex.printStackTrace();
         }
     }
-
 	
 /* 
  * **********************************************************************************************************

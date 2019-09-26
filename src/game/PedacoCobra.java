@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
 public class PedacoCobra {
+	
 /* 
  * ************************************************************************************************************
  * ATRIBUTOS
@@ -18,6 +19,7 @@ public class PedacoCobra {
 	public static int altura;
 	
 	private ImageIcon imgCorpoCobra;
+	
 /* 
  * ************************************************************************************************************
  * CONSTRUTOR
@@ -32,6 +34,7 @@ public class PedacoCobra {
 		largura = areaPedacoCobra;
 		altura = areaPedacoCobra;
 	}
+	
 /* 
  * ************************************************************************************************************
  * MÉTODOS
@@ -52,7 +55,7 @@ public class PedacoCobra {
 		getImgCorpoCobra().paintIcon(null, grafico, getCoodX() * getLargura(), getCoodY() * getAltura());
 	}
 
-	/* 
+/* 
  * ************************************************************************************************************
  * MÉTODOS ACESSORES
  * ************************************************************************************************************
