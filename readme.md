@@ -10,7 +10,5 @@ Snake  é um jogo que ficou conhecido por diversas versões cuja versão inicial
  *		- Roberto Nobre
 
 ### Motivação 
-  		Tal projeto é responsável por compor parte da
- *	nota da disciplina SI400, Programação Orientada a
- *	Objetos II, da Faculdade de Tecnologia da Unicamp.
+  		Tal projeto é responsável por compor parte da nota da disciplina SI400, Programação Orientada a objetos II, da Faculdade de Tecnologia da Unicamp. 2/2019
 
