@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 public class MainClass {
 
 	public static void main(String[] args) {
-		JFrame frame = new JFrame("Jogo da Cobra");
+		JFrame frame = new JFrame("Snake Game - 1990s");
 		PainelGrafico game = new PainelGrafico();
 		
 		frame.add(game);
@@ -20,8 +20,7 @@ public class MainClass {
 		
 		frame.pack();
 
-		
-		frame.setBounds(0,0,507,587);
+		frame.setSize(507, 587);
 		
 		frame.setLocationRelativeTo(null);
 	}

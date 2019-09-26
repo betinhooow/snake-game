@@ -27,7 +27,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		private static final long serialVersionUID = 1L;
 		
 		// Velocidade da cobra em milisegundos e tamanho padrao
-		public static final int VELOCIDADE = 1000000;
+		public static final int VELOCIDADE = 750000;
 		public static final int tamINICIAL = 5;
 		public static final int MAXpontos = 500;
 		
@@ -61,6 +61,7 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 		
 		//Flag só permite acionar um novo movimento após a cobra se mover.
 		public int flag = 0;
+		
 		// Nome do jogador
 		public String name = "";
 	
@@ -246,11 +247,14 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 
 	public void paint (Graphics grafico) {
 		// Imagem do titulo
+		// getResource - pega o caminho do arquivo
+		// getClassLoader - pega todos os caminhos absolutos, ou seja, ele engloba outros pacotes
+		// getClass - acessa src
 		Titulo_Imagem = new ImageIcon(getClass().getClassLoader().getResource("Imagens/Titulo_Cobra.jpg")); //instanciando uma nova imagem, colocando como parametro o local da imagem
 		Titulo_Imagem.paintIcon(this, grafico, 0, 0);	
 		
 		int fontSize = 20;
-	    grafico.setFont(new Font("TimesRoman", Font.BOLD, fontSize));
+	    grafico.setFont(new Font("Courier", Font.ITALIC, fontSize));
 	     
 	    grafico.setColor(Color.red);
 	    
@@ -349,7 +353,6 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			setCima(false);
 			setBaixo(false);
 			flag = 1;
-			
 		}
 		
 		// Pressionar tecla para ESQUERDA
@@ -368,7 +371,6 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			setDireita(false);
 			setEsquerda(false);
 			flag = 1;
-			
 		}
 		
 		// Pressionar tecla para BAIXO
@@ -378,7 +380,6 @@ public class PainelGrafico extends JPanel implements Runnable, KeyListener {
 			setDireita(false);
 			setEsquerda(false);
 			flag = 1;
-	
 		}
 	}
 
